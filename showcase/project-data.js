@@ -1,7 +1,7 @@
 window.ctrProjectData = {
   meta: {
     title: "Advertising Click-Through-Rate Prediction",
-    subtitle: "Leakage-safe CTR modeling on the 40.4M-row Avazu mobile ads dataset",
+    subtitle: "A compact case study in leakage-safe feature engineering, honest model evaluation, and scalable CTR prediction.",
     audience: "Recruiters, data science interviewers, and project reviewers",
     updated: "2026-06-18",
     source: "Kaggle Avazu CTR Prediction",
@@ -35,6 +35,82 @@ window.ctrProjectData = {
       rocAuc: 0.73,
       prAuc: 0.356,
       note: "Adds leakage-safe encodings for high-cardinality categorical features."
+    }
+  ],
+  metricExplorer: {
+    defaultMetric: "rocAuc",
+    metrics: [
+      {
+        key: "logLoss",
+        label: "LogLoss",
+        direction: "lower is better",
+        domain: [0.38, 0.47],
+        summary: "The OOF-encoded model reduces held-out LogLoss versus the low-cardinality baseline."
+      },
+      {
+        key: "rocAuc",
+        label: "ROC-AUC",
+        direction: "higher is better",
+        domain: [0.48, 0.76],
+        summary: "ROC-AUC shows the ranking lift from preserving high-cardinality categorical signal."
+      },
+      {
+        key: "prAuc",
+        label: "PR-AUC",
+        direction: "higher is better",
+        domain: [0.14, 0.38],
+        summary: "PR-AUC is useful because clicks are the minority class."
+      }
+    ]
+  },
+  featureImportance: [
+    {
+      feature: "app_id",
+      group: "High-cardinality app identity",
+      importance: 0.552,
+      note: "App identity is the strongest feature after smoothed target encoding."
+    },
+    {
+      feature: "site_category",
+      group: "Publisher context",
+      importance: 0.385,
+      note: "Site category is low-cardinality but carries strong segment-level CTR signal."
+    },
+    {
+      feature: "app_category",
+      group: "App context",
+      importance: 0.343,
+      note: "App category helps explain broad audience and inventory differences."
+    },
+    {
+      feature: "site_id",
+      group: "High-cardinality site identity",
+      importance: 0.326,
+      note: "Keeping site identifiers avoids throwing away meaningful publisher-level signal."
+    },
+    {
+      feature: "site_domain",
+      group: "Publisher context",
+      importance: 0.232,
+      note: "Domain-level context contributes beyond the broader category field."
+    },
+    {
+      feature: "C14",
+      group: "Anonymized ad feature",
+      importance: 0.197,
+      note: "Anonymized competition fields still encode useful ad or campaign context."
+    },
+    {
+      feature: "C16",
+      group: "Anonymized ad feature",
+      importance: 0.187,
+      note: "A medium-strength categorical signal retained in the model."
+    },
+    {
+      feature: "C18",
+      group: "Anonymized ad feature",
+      importance: 0.146,
+      note: "Useful in combination with other categorical and encoded features."
     }
   ],
   highlights: [

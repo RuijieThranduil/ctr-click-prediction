@@ -20,7 +20,7 @@
             <p data-subtitle></p>
             <div class="hero-actions">
               <a class="button" href="#workflow">View workflow</a>
-              <a class="button secondary" href="#results">Inspect results</a>
+              <a class="button secondary" href="#interactive">Inspect evidence</a>
             </div>
           </div>
         </div>
@@ -57,6 +57,41 @@
               </p>
             </div>
             <ol class="workflow-list" data-workflow></ol>
+          </div>
+        </section>
+
+        <section class="interactive" id="interactive" aria-labelledby="interactive-heading">
+          <div class="section-inner">
+            <div class="section-header">
+              <h2 id="interactive-heading">Interactive evidence</h2>
+              <p>
+                A small amount of interaction helps reviewers compare the modeling
+                decisions without turning the page into a generic dashboard.
+              </p>
+            </div>
+            <div class="interactive-grid">
+              <article class="interactive-panel">
+                <div class="panel-heading">
+                  <div>
+                    <span>Model metrics</span>
+                    <h3>Compare the evaluation target</h3>
+                  </div>
+                  <div class="metric-switcher" data-metric-switcher></div>
+                </div>
+                <div class="metric-chart" data-metric-chart></div>
+                <p class="chart-note" data-metric-summary></p>
+              </article>
+              <article class="interactive-panel">
+                <div class="panel-heading">
+                  <div>
+                    <span>Feature signal</span>
+                    <h3>Inspect the top drivers</h3>
+                  </div>
+                </div>
+                <div class="feature-chart" data-feature-chart></div>
+                <p class="chart-note" data-feature-note></p>
+              </article>
+            </div>
           </div>
         </section>
 

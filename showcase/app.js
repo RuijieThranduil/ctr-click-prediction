@@ -1,6 +1,7 @@
 const data = window.ctrProjectData;
 
 const formatMetric = (value) => Number(value).toFixed(3);
+let activeMetric = data.metricExplorer.defaultMetric;
 
 function renderMeta() {
   document.title = `${data.meta.title} | Project Showcase`;
@@ -51,6 +52,80 @@ function renderMetricRows() {
       `
     )
     .join("");
+}
+
+function metricDefinition(key) {
+  return data.metricExplorer.metrics.find((metric) => metric.key === key);
+}
+
+function renderMetricSwitcher() {
+  const switcher = document.querySelector("[data-metric-switcher]");
+  switcher.innerHTML = data.metricExplorer.metrics
+    .map(
+      (metric) => `
+        <button type="button" class="mini-button ${metric.key === activeMetric ? "is-active" : ""}" data-metric="${metric.key}">
+          ${metric.label}
+        </button>
+      `
+    )
+    .join("");
+  switcher.addEventListener("click", (event) => {
+    const button = event.target.closest("button[data-metric]");
+    if (!button) return;
+    activeMetric = button.dataset.metric;
+    renderMetricSwitcher();
+    renderMetricChart();
+  }, { once: true });
+}
+
+function renderMetricChart() {
+  const metric = metricDefinition(activeMetric);
+  const [min, max] = metric.domain;
+  const range = max - min;
+  document.querySelector("[data-metric-chart]").innerHTML = data.metrics
+    .map((row, index) => {
+      const value = row[activeMetric];
+      const width = Math.max(4, Math.min(100, ((value - min) / range) * 100));
+      const isBest = activeMetric === "logLoss"
+        ? value === Math.min(...data.metrics.map((item) => item[activeMetric]))
+        : value === Math.max(...data.metrics.map((item) => item[activeMetric]));
+      return `
+        <button type="button" class="metric-bar ${isBest ? "is-best" : ""}" data-model-index="${index}">
+          <span class="bar-label">${row.model}</span>
+          <span class="bar-track"><span style="width: ${width}%"></span></span>
+          <strong>${formatMetric(value)}</strong>
+        </button>
+      `;
+    })
+    .join("");
+  document.querySelector("[data-metric-summary]").textContent = `${metric.label}: ${metric.summary} (${metric.direction}).`;
+}
+
+function renderFeatureChart(selectedIndex = 0) {
+  const max = Math.max(...data.featureImportance.map((item) => item.importance));
+  const selected = data.featureImportance[selectedIndex];
+  document.querySelector("[data-feature-chart]").innerHTML = data.featureImportance
+    .map((item, index) => {
+      const width = Math.max(4, (item.importance / max) * 100);
+      return `
+        <button type="button" class="feature-bar ${index === selectedIndex ? "is-active" : ""}" data-feature-index="${index}">
+          <span>${item.feature}</span>
+          <span class="bar-track"><span style="width: ${width}%"></span></span>
+          <strong>${item.importance.toFixed(3)}</strong>
+        </button>
+      `;
+    })
+    .join("");
+  document.querySelector("[data-feature-note]").textContent = `${selected.feature} - ${selected.group}. ${selected.note}`;
+}
+
+function bindFeatureChart() {
+  const chart = document.querySelector("[data-feature-chart]");
+  chart.addEventListener("click", (event) => {
+    const button = event.target.closest("button[data-feature-index]");
+    if (!button) return;
+    renderFeatureChart(Number(button.dataset.featureIndex));
+  });
 }
 
 function renderWorkflow() {
@@ -124,6 +199,10 @@ function renderNotes() {
 renderMeta();
 renderHighlights();
 renderMetricRows();
+renderMetricSwitcher();
+renderMetricChart();
+renderFeatureChart();
+bindFeatureChart();
 renderWorkflow();
 renderChartFilters();
 renderCharts();

@@ -10,6 +10,7 @@
   --gold: #9b6b1f;
   --red: #b34d4d;
   --shadow: 0 18px 60px rgba(23, 33, 43, 0.1);
+  --teal-soft: #dceee9;
 }
 
 * {
@@ -34,12 +35,12 @@ a {
 
 .hero {
   background:
-    linear-gradient(90deg, rgba(23, 33, 43, 0.9), rgba(23, 33, 43, 0.56)),
-    url("../outputs_figs/06_model_curves.png");
+    linear-gradient(90deg, rgba(16, 24, 32, 0.92) 0%, rgba(16, 24, 32, 0.78) 38%, rgba(16, 24, 32, 0.22) 100%),
+    url("assets/hero-ctr-workflow.png");
   background-size: cover;
-  background-position: center;
+  background-position: center right;
   color: #ffffff;
-  min-height: 74vh;
+  min-height: 76vh;
   display: flex;
   align-items: center;
 }
@@ -84,8 +85,8 @@ p {
 h1 {
   max-width: 760px;
   margin-bottom: 18px;
-  font-size: clamp(2.5rem, 6vw, 5.8rem);
-  line-height: 0.98;
+  font-size: clamp(2.4rem, 5.4vw, 5.2rem);
+  line-height: 1;
   letter-spacing: 0;
 }
 
@@ -248,6 +249,151 @@ section {
 
 .workflow {
   background: #eaf0ef;
+}
+
+.interactive {
+  background: #f9faf7;
+}
+
+.interactive-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(340px, 0.92fr);
+  gap: 22px;
+}
+
+.interactive-panel {
+  min-width: 0;
+  padding: 24px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.panel-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: flex-start;
+  margin-bottom: 22px;
+}
+
+.panel-heading span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.panel-heading h3 {
+  margin: 6px 0 0;
+  font-size: 1.25rem;
+}
+
+.metric-switcher {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.mini-button {
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #ffffff;
+  color: var(--ink);
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.mini-button.is-active {
+  background: var(--green);
+  border-color: var(--green);
+  color: #ffffff;
+}
+
+.metric-chart,
+.feature-chart {
+  display: grid;
+  gap: 12px;
+}
+
+.metric-bar,
+.feature-bar {
+  width: 100%;
+  min-height: 54px;
+  display: grid;
+  align-items: center;
+  gap: 14px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: #ffffff;
+  color: var(--ink);
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+}
+
+.metric-bar {
+  grid-template-columns: minmax(190px, 1.1fr) minmax(160px, 1.5fr) 74px;
+  padding: 10px 14px;
+}
+
+.feature-bar {
+  grid-template-columns: 86px minmax(130px, 1fr) 62px;
+  padding: 9px 12px;
+}
+
+.bar-label,
+.feature-bar > span:first-child {
+  font-weight: 750;
+  overflow-wrap: anywhere;
+}
+
+.bar-track {
+  height: 12px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e7edf0;
+}
+
+.bar-track span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--blue);
+}
+
+.metric-bar.is-best {
+  border-color: #9ccbb9;
+  background: #f0f8f4;
+}
+
+.metric-bar.is-best .bar-track span,
+.feature-bar.is-active .bar-track span {
+  background: var(--green);
+}
+
+.feature-bar.is-active {
+  border-color: #9ccbb9;
+  background: #f0f8f4;
+}
+
+.metric-bar strong,
+.feature-bar strong {
+  justify-self: end;
+  color: var(--ink);
+  font-size: 0.98rem;
+}
+
+.chart-note {
+  min-height: 48px;
+  margin: 18px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
 }
 
 .workflow-list {
@@ -459,6 +605,7 @@ tbody tr.is-best th {
   .meta-list,
   .judgment-grid,
   .workflow-list,
+  .interactive-grid,
   .notes-grid {
     grid-template-columns: 1fr;
   }
@@ -474,6 +621,15 @@ tbody tr.is-best th {
 
   .chart-card {
     grid-template-columns: 1fr;
+  }
+
+  .panel-heading {
+    display: block;
+  }
+
+  .metric-switcher {
+    justify-content: flex-start;
+    margin-top: 14px;
   }
 }
 
@@ -508,8 +664,20 @@ tbody tr.is-best th {
   .judgment-copy,
   .metric-card,
   .workflow-step,
+  .interactive-panel,
   .chart-card,
   .data-contract {
     padding: 18px;
+  }
+
+  .metric-bar,
+  .feature-bar {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .metric-bar strong,
+  .feature-bar strong {
+    justify-self: start;
   }
 }
