@@ -12,9 +12,16 @@
   </head>
   <body>
     <div class="page-shell">
+      <div class="scroll-progress" aria-hidden="true"></div>
       <header class="hero">
+        <canvas class="signal-field" data-signal-field aria-hidden="true"></canvas>
         <div class="hero-inner">
-          <div class="hero-copy">
+          <nav class="top-nav" aria-label="Showcase sections">
+            <a href="#workflow">Workflow</a>
+            <a href="#interactive">Evidence</a>
+            <a href="#results">Results</a>
+          </nav>
+          <div class="hero-copy reveal">
             <p class="eyebrow">Project Workflow Showcase</p>
             <h1 data-title>Advertising Click-Through-Rate Prediction</h1>
             <p data-subtitle></p>
@@ -23,6 +30,7 @@
               <a class="button secondary" href="#interactive">Inspect evidence</a>
             </div>
           </div>
+          <div class="hero-telemetry reveal" aria-label="Project telemetry" data-hero-telemetry></div>
         </div>
       </header>
 
@@ -33,7 +41,7 @@
       </aside>
 
       <main>
-        <section aria-labelledby="purpose-heading">
+        <section class="reveal" aria-labelledby="purpose-heading">
           <div class="section-inner judgment-grid">
             <article class="judgment-copy">
               <p class="eyebrow">Display Goal</p>
@@ -46,7 +54,7 @@
           </div>
         </section>
 
-        <section class="workflow" id="workflow" aria-labelledby="workflow-heading">
+        <section class="workflow reveal" id="workflow" aria-labelledby="workflow-heading">
           <div class="section-inner">
             <div class="section-header">
               <h2 id="workflow-heading">Workflow from data to judgment</h2>
@@ -60,7 +68,7 @@
           </div>
         </section>
 
-        <section class="interactive" id="interactive" aria-labelledby="interactive-heading">
+        <section class="interactive reveal" id="interactive" aria-labelledby="interactive-heading">
           <div class="section-inner">
             <div class="section-header">
               <h2 id="interactive-heading">Interactive evidence</h2>
@@ -95,7 +103,7 @@
           </div>
         </section>
 
-        <section id="results" aria-labelledby="results-heading">
+        <section class="reveal" id="results" aria-labelledby="results-heading">
           <div class="section-inner">
             <div class="section-header">
               <h2 id="results-heading">Model comparison</h2>
@@ -121,7 +129,7 @@
           </div>
         </section>
 
-        <section aria-labelledby="charts-heading">
+        <section class="reveal" aria-labelledby="charts-heading">
           <div class="section-inner">
             <div class="section-header">
               <h2 id="charts-heading">Evidence gallery</h2>
@@ -135,7 +143,7 @@
           </div>
         </section>
 
-        <section class="notes" aria-labelledby="notes-heading">
+        <section class="notes reveal" aria-labelledby="notes-heading">
           <div class="section-inner">
             <div class="section-header">
               <h2 id="notes-heading">Method notes and limits</h2>

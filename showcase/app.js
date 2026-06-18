@@ -2,6 +2,7 @@ const data = window.ctrProjectData;
 
 const formatMetric = (value) => Number(value).toFixed(3);
 let activeMetric = data.metricExplorer.defaultMetric;
+let activeFeatureIndex = 0;
 
 function renderMeta() {
   document.title = `${data.meta.title} | Project Showcase`;
@@ -29,6 +30,20 @@ function renderHighlights() {
     .map(
       (item) => `
         <article class="metric-card">
+          <span>${item.label}</span>
+          <strong>${item.value}</strong>
+          <p>${item.detail}</p>
+        </article>
+      `
+    )
+    .join("");
+}
+
+function renderHeroTelemetry() {
+  document.querySelector("[data-hero-telemetry]").innerHTML = data.highlights
+    .map(
+      (item) => `
+        <article class="telemetry-cell">
           <span>${item.label}</span>
           <strong>${item.value}</strong>
           <p>${item.detail}</p>
@@ -101,7 +116,8 @@ function renderMetricChart() {
   document.querySelector("[data-metric-summary]").textContent = `${metric.label}: ${metric.summary} (${metric.direction}).`;
 }
 
-function renderFeatureChart(selectedIndex = 0) {
+function renderFeatureChart(selectedIndex = activeFeatureIndex) {
+  activeFeatureIndex = selectedIndex;
   const max = Math.max(...data.featureImportance.map((item) => item.importance));
   const selected = data.featureImportance[selectedIndex];
   document.querySelector("[data-feature-chart]").innerHTML = data.featureImportance
@@ -126,6 +142,94 @@ function bindFeatureChart() {
     if (!button) return;
     renderFeatureChart(Number(button.dataset.featureIndex));
   });
+}
+
+function bindScrollEffects() {
+  const progress = document.querySelector(".scroll-progress");
+  const updateProgress = () => {
+    const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+    const percent = scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0;
+    progress.style.width = `${Math.min(100, Math.max(0, percent))}%`;
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("is-visible");
+      }
+    });
+  }, { threshold: 0.16 });
+
+  document.querySelectorAll(".reveal").forEach((element) => observer.observe(element));
+  window.addEventListener("scroll", updateProgress, { passive: true });
+  updateProgress();
+}
+
+function initSignalField() {
+  const canvas = document.querySelector("[data-signal-field]");
+  if (!canvas) return;
+
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const context = canvas.getContext("2d");
+  const points = Array.from({ length: 46 }, (_, index) => ({
+    x: (index * 83) % 100,
+    y: (index * 47) % 100,
+    speed: 0.08 + (index % 5) * 0.014,
+    radius: 1 + (index % 3) * 0.45
+  }));
+
+  const resize = () => {
+    const ratio = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.floor(canvas.clientWidth * ratio);
+    canvas.height = Math.floor(canvas.clientHeight * ratio);
+    context.setTransform(ratio, 0, 0, ratio, 0, 0);
+  };
+
+  const draw = (time = 0) => {
+    const width = canvas.clientWidth;
+    const height = canvas.clientHeight;
+    context.clearRect(0, 0, width, height);
+    context.lineWidth = 1;
+
+    const plotted = points.map((point) => {
+      const drift = reducedMotion ? 0 : Math.sin(time * 0.00018 + point.x) * 18;
+      return {
+        x: (point.x / 100) * width + drift,
+        y: ((point.y + (reducedMotion ? 0 : time * point.speed * 0.01)) % 100 / 100) * height,
+        radius: point.radius
+      };
+    });
+
+    plotted.forEach((point, index) => {
+      context.beginPath();
+      context.fillStyle = index % 4 === 0 ? "rgba(193, 140, 68, 0.72)" : "rgba(119, 215, 226, 0.62)";
+      context.arc(point.x, point.y, point.radius, 0, Math.PI * 2);
+      context.fill();
+    });
+
+    for (let i = 0; i < plotted.length; i += 1) {
+      for (let j = i + 1; j < plotted.length; j += 1) {
+        const dx = plotted[i].x - plotted[j].x;
+        const dy = plotted[i].y - plotted[j].y;
+        const distance = Math.hypot(dx, dy);
+        if (distance < 150) {
+          context.beginPath();
+          context.strokeStyle = `rgba(119, 215, 226, ${0.18 * (1 - distance / 150)})`;
+          context.moveTo(plotted[i].x, plotted[i].y);
+          context.lineTo(plotted[j].x, plotted[j].y);
+          context.stroke();
+        }
+      }
+    }
+
+    if (!reducedMotion) {
+      requestAnimationFrame(draw);
+    }
+  };
+
+  resize();
+  window.addEventListener("resize", resize);
+  draw();
 }
 
 function renderWorkflow() {
@@ -198,6 +302,7 @@ function renderNotes() {
 
 renderMeta();
 renderHighlights();
+renderHeroTelemetry();
 renderMetricRows();
 renderMetricSwitcher();
 renderMetricChart();
@@ -207,3 +312,5 @@ renderWorkflow();
 renderChartFilters();
 renderCharts();
 renderNotes();
+bindScrollEffects();
+initSignalField();
