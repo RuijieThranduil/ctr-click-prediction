@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CTR Prediction Project Showcase</title>
+    <meta
+      name="description"
+      content="Static showcase page for the Avazu CTR prediction project workflow, model results, and methodology."
+    >
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <div class="hero-inner">
+          <div class="hero-copy">
+            <p class="eyebrow">Project Workflow Showcase</p>
+            <h1 data-title>Advertising Click-Through-Rate Prediction</h1>
+            <p data-subtitle></p>
+            <div class="hero-actions">
+              <a class="button" href="#workflow">View workflow</a>
+              <a class="button secondary" href="#results">Inspect results</a>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <aside class="meta-band" aria-label="Project metadata">
+        <div class="section-inner">
+          <ul class="meta-list" data-meta-list></ul>
+        </div>
+      </aside>
+
+      <main>
+        <section aria-labelledby="purpose-heading">
+          <div class="section-inner judgment-grid">
+            <article class="judgment-copy">
+              <p class="eyebrow">Display Goal</p>
+              <h2 id="purpose-heading">What the page is meant to prove</h2>
+              <p data-purpose></p>
+              <p data-judgment></p>
+              <p class="takeaway" data-takeaway></p>
+            </article>
+            <div class="metrics-grid" data-highlights></div>
+          </div>
+        </section>
+
+        <section class="workflow" id="workflow" aria-labelledby="workflow-heading">
+          <div class="section-inner">
+            <div class="section-header">
+              <h2 id="workflow-heading">Workflow from data to judgment</h2>
+              <p>
+                The page follows the same sequence as the project: define the question,
+                prepare the data, engineer leakage-safe features, compare baselines, and
+                document the scale-out path.
+              </p>
+            </div>
+            <ol class="workflow-list" data-workflow></ol>
+          </div>
+        </section>
+
+        <section id="results" aria-labelledby="results-heading">
+          <div class="section-inner">
+            <div class="section-header">
+              <h2 id="results-heading">Model comparison</h2>
+              <p>
+                The main comparison isolates the value of keeping high-cardinality
+                categorical features through out-of-fold target encoding.
+              </p>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th scope="col">Model</th>
+                    <th scope="col">LogLoss</th>
+                    <th scope="col">ROC-AUC</th>
+                    <th scope="col">PR-AUC</th>
+                    <th scope="col">Interpretation</th>
+                  </tr>
+                </thead>
+                <tbody data-metric-rows></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section aria-labelledby="charts-heading">
+          <div class="section-inner">
+            <div class="section-header">
+              <h2 id="charts-heading">Evidence gallery</h2>
+              <p>
+                Each visual is selected for the type of judgment it supports: model
+                evaluation, feature importance, or exploratory segmentation.
+              </p>
+            </div>
+            <div class="chart-toolbar" data-chart-filters aria-label="Chart filters"></div>
+            <div class="chart-grid" data-charts></div>
+          </div>
+        </section>
+
+        <section class="notes" aria-labelledby="notes-heading">
+          <div class="section-inner">
+            <div class="section-header">
+              <h2 id="notes-heading">Method notes and limits</h2>
+              <p>
+                The page keeps the strongest claims visible while preserving the caveats
+                a reviewer needs to trust the work.
+              </p>
+            </div>
+            <div class="notes-grid">
+              <ul class="notes-list" data-notes></ul>
+              <aside class="data-contract" data-contract></aside>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <div class="section-inner">
+          <span>Static HTML/CSS/JS showcase generated from a stable front-end payload.</span>
+          <a data-repository href="#">View repository</a>
+        </div>
+      </footer>
+    </div>
+
+    <script src="project-data.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

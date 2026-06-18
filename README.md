@@ -6,6 +6,8 @@ The project covers the full workflow: EDA -> leakage-safe feature engineering ->
 gradient-boosted models -> honest, imbalance-aware evaluation - implemented both **locally
 (pandas/NumPy)** and **at scale (PySpark/Databricks)**.
 
+Static project showcase: https://ruijiethranduil.github.io/ctr-click-prediction/showcase/
+
 ## Headline result
 
 Correctly engineering the **high-cardinality features** that a naive pipeline discards lifts
@@ -46,6 +48,11 @@ the 16.99% click-through rate closely matches the full dataset. Held-out 30% tes
 │   └── 03_spark_pipeline.ipynb # scalable PySpark/Databricks version (runs on the full 40M rows)
 ├── scripts/
 │   └── make_sample.py          # creates the reproducible 1% sample from Kaggle train.csv
+├── showcase/
+│   ├── index.html              # static workflow showcase for GitHub Pages
+│   ├── project-data.js         # front-end payload consumed by the page
+│   ├── app.js                  # rendering logic
+│   └── styles.css              # page styling
 ├── src/
 │   ├── data_prep.py            # loading + time features + feature groups
 │   ├── encoders.py             # smoothed target encoder
