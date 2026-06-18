@@ -19,8 +19,8 @@ LogLoss and calibration. Out-of-fold target encoding was essential to avoid targ
 | **Logistic Regression + high-cardinality OOF target encoding** | **0.405** | **0.730** | **0.356** |
 | XGBoost (same features, see notebook) | - | ~0.74-0.76 | - |
 
-*Results on a reproducible 1% stratified sample (404,892 rows, seed=42) of the full training set;
-the 16.99% click-through rate matches the full dataset. Held-out 30% test split.*
+*Results on a reproducible 1% random sample (404,892 rows, seed=42) of the full training set;
+the 16.99% click-through rate closely matches the full dataset. Held-out 30% test split.*
 
 ## Key decisions (and why they matter)
 
@@ -44,6 +44,8 @@ the 16.99% click-through rate matches the full dataset. Held-out 30% test split.
 │   ├── 01_eda.ipynb            # exploratory analysis, CTR-by-segment, lift
 │   ├── 02_modeling.ipynb       # encoding, baseline->LR->XGBoost, evaluation, feature importance
 │   └── 03_spark_pipeline.ipynb # scalable PySpark/Databricks version (runs on the full 40M rows)
+├── scripts/
+│   └── make_sample.py          # creates the reproducible 1% sample from Kaggle train.csv
 ├── src/
 │   ├── data_prep.py            # loading + time features + feature groups
 │   ├── encoders.py             # smoothed target encoder
@@ -53,15 +55,19 @@ the 16.99% click-through rate matches the full dataset. Held-out 30% test split.
 │   ├── run_experiments_np.py   # reproduces the results table + curves
 │   └── feature_importance.py   # importance ranking + original-bug demonstration
 ├── data/
-│   └── filtered_train.csv      # 1% reproducible sample (created from train.csv)
-└── outputs_figs/               # generated EDA + model figures
+│   └── filtered_train.csv      # generated locally; ignored by git because of size
+├── outputs_figs/               # generated EDA + model figures
+└── requirements.txt
 ```
 
 ## Reproduce
 
 ```bash
-# create the sample from the full Kaggle train.csv (or use your own filtered_train.csv)
-awk 'BEGIN{srand(42)} NR==1 || rand()<0.01' train/train.csv > data/filtered_train.csv
+# install the local analysis dependencies
+python -m pip install -r requirements.txt
+
+# download train.csv from Kaggle's Avazu CTR competition, then create the sample
+python scripts/make_sample.py train/train.csv data/filtered_train.csv --frac 0.01 --seed 42
 
 # run the modeling experiments (NumPy-only path: no scikit-learn/xgboost required)
 python src/run_experiments_np.py
