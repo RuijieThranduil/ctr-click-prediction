@@ -1,0 +1,10 @@
+# data (regenerate with the awk command in README)
+data/*.csv
+# raw Kaggle dumps
+train/
+train.gz
+avazu-ctr-prediction/
+# python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/

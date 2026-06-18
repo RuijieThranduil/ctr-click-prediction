@@ -1,0 +1,4 @@
+model,LogLoss,ROC_AUC,PR_AUC
+Baseline (predict mean CTR),0.4549,0.5,0.1695
+LogReg (low-card only),0.4308,0.6542,0.2853
+LogReg (+ high-card target-enc),0.4053,0.7302,0.356
