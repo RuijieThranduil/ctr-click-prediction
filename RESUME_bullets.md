@@ -1,4 +1,4 @@
-# Resume bullet points — CTR Prediction project
+# Bullet points — CTR Prediction project
 
 Pick 2–4 depending on the role (DA roles: lean on the EDA/insight + communication bullets;
 DS roles: lean on the modeling/leakage/scale bullets). Numbers are from the held-out test set on
@@ -43,6 +43,4 @@ a 405K-row stratified sample; **swap in your XGBoost numbers after running the n
 
 - The 0.65→0.73 numbers are **real**, from logistic regression on the sample. The XGBoost line is an
   expectation — run `02_modeling.ipynb` in Colab and replace it with your measured value before claiming it.
-- If asked in an interview, be ready to explain **why** out-of-fold encoding matters (leakage) and **why**
-  LogLoss over accuracy (imbalance). These are the two strongest talking points.
-- Put the code on GitHub with the README; "show, don't tell" beats any bullet.
+- **why** out-of-fold encoding matters (leakage) and **why** LogLoss over accuracy (imbalance). These are the two strongest talking points.
